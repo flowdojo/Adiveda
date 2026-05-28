@@ -7,6 +7,7 @@ import ButtonA from "@/components/ui/ButtonA";
 const navItems = [
   { href: "#offerings", label: "Offerings" },
   { href: "/about", label: "Adiveda" },
+  { href: "/blog", label: "Blog" },
   { href: "#panchang", label: "Panchang" },
   { href: "#community", label: "Community" },
 ];

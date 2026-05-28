@@ -1,6 +1,6 @@
 # adiveda-practice
 
-A modern Next.js project with smooth scrolling, GSAP-ready animations, responsive Tailwind CSS styling, and reusable layout primitives.
+A modern Next.js project with Sanity CMS, smooth scrolling, GSAP-ready animations, responsive Tailwind CSS styling, and reusable layout primitives.
 
 ## Features
 
@@ -8,8 +8,12 @@ A modern Next.js project with smooth scrolling, GSAP-ready animations, responsiv
 - GSAP-ready animation setup
 - Mobile-first Tailwind CSS 4 styling
 - Next.js 16 and React 19
-- Reusable Navbar, Footer, Hero, and Button components
-- Home and About routes
+- Sanity Studio embedded at `/studio`
+- CMS-backed home page and blog system
+- Blog listing with category filters
+- Dynamic blog detail pages created from Sanity slugs
+- Reusable Navbar, Footer, BlogListing, and Button components
+- Home, About, Blog, and Studio routes
 
 ## Getting Started
 
@@ -23,12 +27,21 @@ Create local env config only if needed:
 cp .env.example .env.local
 ```
 
+Add Sanity values to `.env.local`:
+
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2026-05-22
+```
+
 Run the development server:
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the site.
+Open [http://localhost:3000/studio](http://localhost:3000/studio) to edit Sanity content.
 
 ## Scripts
 
@@ -39,22 +52,58 @@ npm run start    # Start production server
 npm run lint     # Run ESLint
 ```
 
+## Git Push Commands
+
+Use these when you want to save local changes and push them to GitHub:
+
+```bash
+git status
+git add -A
+git commit -m "Describe your changes"
+git push origin main
+```
+
+If you are on another branch, check the branch name:
+
+```bash
+git branch --show-current
+```
+
+Then push that branch:
+
+```bash
+git push origin your-branch-name
+```
+
 ## Project Structure
 
 ```
 src/
 ├── app/
-│   ├── layout.js              # Root layout with SmoothScrolling & Footer
-│   ├── page.js                # Home page
+│   ├── layout.js              # Root layout with SiteShell
+│   ├── page.js                # CMS-backed home page
 │   ├── globals.css            # Global styles and Tailwind directives
-│   └── about/page.js          # About page
+│   ├── about/page.js          # About page
+│   ├── blog/page.js           # Blog listing with filters
+│   ├── blog/[slug]/page.js    # Dynamic Sanity blog page
+│   └── studio/                # Embedded Sanity Studio
 ├── components/
+│   ├── blog/
+│   │   └── BlogListing.jsx    # Client-side blog category filters
 │   ├── layout/
 │   │   ├── Navbar.jsx         # Navigation with mobile menu
-│   │   └── Footer.jsx         # Footer component
-│   └── sections/
-│       └── Hero.jsx           # Hero section with CTA
+│   │   ├── Footer.jsx         # Footer component
+│   │   └── SiteShell.jsx      # Skips Lenis/Footer on /studio
+│   └── ui/
+│       └── ButtonA.jsx        # Shared button/link component
+├── sanity/
+│   ├── client.js              # Sanity client
+│   ├── queries.js             # GROQ queries
+│   └── schemaTypes/           # Sanity schemas
+├── lib/
+│   └── sampleBlogs.js         # Fallback sample blog content
 ├── providers/
+│   ├── Animations.jsx         # Animation provider
 │   └── SmoothScrolling.jsx    # Lenis smooth scroll provider
 └── animations/
     └── initAnimations.js      # GSAP animation setup
@@ -64,6 +113,38 @@ src/
 
 - `/` - Home page with hero section
 - `/about` - About page
+- `/blog` - Blog listing with category filters
+- `/blog/[slug]` - Blog detail page generated from Sanity post slugs
+- `/studio` - Sanity Studio
+
+## Sanity Content
+
+Schemas live in `src/sanity/schemaTypes/`:
+
+- `homePage` - home hero content and SEO
+- `blogPost` - heading, slug, excerpt, body, cover image, date, category, author, SEO
+- `author` - author name, slug, image, and bio
+- `cta` - reusable button label/link object
+
+Queries live in `src/sanity/queries.js`.
+
+Published blog posts create pages automatically from their slug:
+
+```txt
+/blog/my-post-slug
+```
+
+Blog detail pages include:
+
+- Heading
+- Date
+- Category
+- Author name and image
+- Body content
+- Table of contents from `h2` and `h3` body headings
+- Related blogs from the same category
+
+See `page-guide.md` for the step-by-step page creation tutorial.
 
 ## Components
 
@@ -79,15 +160,9 @@ export default function Page() {
 
 The root layout already includes `Footer`, so pages only need to render their page-specific content and any page-level navigation.
 
-### Hero
+### BlogListing
 
-```jsx
-import Hero from "@/components/sections/Hero";
-
-export default function Page() {
-  return <Hero />;
-}
-```
+`BlogListing` renders the blog cards and category filters. It is used by `src/app/blog/page.js`.
 
 ## Global Utilities
 
@@ -104,10 +179,12 @@ export default function Page() {
 
 ### Environment Variables
 
-Create `.env.local` only when you add environment-specific values:
+Create `.env.local` with the Sanity values:
 
 ```env
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2026-05-22
 ```
 
 ### Tailwind

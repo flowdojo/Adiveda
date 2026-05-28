@@ -8,6 +8,7 @@ Use the Home Page setup as the example:
 - Queries live in `src/sanity/queries.js`
 - Next pages live in `src/app/`
 - Sanity Studio is at `/studio`
+- Blog pages are created from Sanity post slugs at `/blog/[slug]`
 
 ## 1. Decide The Page Fields
 
@@ -416,3 +417,118 @@ When creating a new CMS page:
 7. Create and publish the document in `/studio`.
 8. Refresh the website page.
 
+## 12. Blog Pages
+
+The blog system is already wired up.
+
+Files:
+
+- Blog schema: `src/sanity/schemaTypes/blogPost.js`
+- Author schema: `src/sanity/schemaTypes/author.js`
+- Blog queries: `src/sanity/queries.js`
+- Blog listing route: `src/app/blog/page.js`
+- Blog detail route: `src/app/blog/[slug]/page.js`
+- Blog filters: `src/components/blog/BlogListing.jsx`
+- Fallback posts: `src/lib/sampleBlogs.js`
+
+### Create A Blog Author
+
+In `/studio`:
+
+1. Open `Author`.
+2. Create an author.
+3. Add name, slug, image, and bio.
+4. Publish.
+
+### Create A Blog Post
+
+In `/studio`:
+
+1. Open `Blog Post`.
+2. Create a post.
+3. Add the heading.
+4. Generate the slug from the heading.
+5. Add excerpt, body, cover image, date, category, and author.
+6. Publish.
+
+The page is created automatically from the slug:
+
+```txt
+/blog/your-post-slug
+```
+
+### Blog Listing Filters
+
+The `/blog` page gets categories from the published blog posts.
+
+The current schema category options are:
+
+- Ayurveda
+- Rituals
+- Panchang
+- Wellbeing
+
+To add or rename categories, edit the `category` field in:
+
+```txt
+src/sanity/schemaTypes/blogPost.js
+```
+
+### Blog Inner Page TOC
+
+The blog detail page creates a table of contents from body headings.
+
+Use these heading styles in the Sanity body editor:
+
+- `h2` for main sections
+- `h3` for sub-sections
+
+Normal paragraphs do not appear in the table of contents.
+
+### Related Blogs
+
+Related blogs are fetched from the same category as the current post.
+
+If Sanity has no related posts yet, the site falls back to `src/lib/sampleBlogs.js`.
+
+### Important Blog Fields
+
+Required fields:
+
+- Heading
+- Slug
+- Excerpt
+- Date
+- Category
+- Author
+
+Recommended fields:
+
+- Body
+- Cover image
+- Cover image alt text
+- SEO title
+- SEO description
+
+### Add A New Blog Body Field
+
+The current body supports Sanity block content:
+
+```js
+defineField({
+  name: "body",
+  title: "Body",
+  type: "array",
+  of: [
+    {
+      type: "block",
+    },
+  ],
+})
+```
+
+If you add custom body types like images, quotes, or callouts, also update the renderer in:
+
+```txt
+src/app/blog/[slug]/page.js
+```
