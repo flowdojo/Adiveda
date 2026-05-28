@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+const tailwindConfig = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,10 +8,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--color-background, #ffffff)",
-        foreground: "var(--color-foreground, #171717)",
-        primary: "var(--color-primary, #111111)",
-        secondary: "var(--color-secondary, #f3f3f3)",
+        "brand-primary": "var(--color-brand-primary, #890808)",
+        "brand-secondary": "var(--color-brand-secondary, #c24a00)",
+        "brand-bg-primary": "var(--color-brand-bg-primary, #fcf6f6)",
+        "brand-bg-secondary": "var(--color-brand-bg-secondary, #f6f1e7)",
+        "brand-bg-tertiary": "var(--color-brand-bg-tertiary, #890808)",
+        "brand-text-dark": "var(--color-brand-text-dark, #000000)",
+        "brand-text-light": "var(--color-brand-text-light, #ffffff)",
+        background: "var(--color-background, #fcf6f6)",
+        "background-secondary": "var(--color-background-secondary, #f6f1e7)",
+        "background-tertiary": "var(--color-background-tertiary, #890808)",
+        foreground: "var(--color-foreground, #000000)",
+        primary: "var(--color-primary, #890808)",
+        secondary: "var(--color-secondary, #c24a00)",
+        tertiary: "var(--color-background-tertiary, #890808)",
+        "text-dark": "var(--color-text-dark, #000000)",
+        "text-light": "var(--color-text-light, #ffffff)",
       },
       fontFamily: {
         heading: "var(--font-heading, Arial, Helvetica, sans-serif)",
@@ -34,3 +46,5 @@ export default {
   },
   plugins: [],
 };
+
+export default tailwindConfig;

@@ -1,8 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 
 export const metadata = {
-  title: "About - Adiveda Practice",
-  description: "Learn more about Flowdojo and our approach to modern web development.",
+  title: "About - adiveda-practice",
+  description: "Learn more about adiveda-practice and our approach to modern web development.",
 };
 
 export default function AboutPage() {

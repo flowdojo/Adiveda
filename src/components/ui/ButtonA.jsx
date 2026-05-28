@@ -1,5 +1,11 @@
+const variants = {
+  primary: "button-primary",
+  secondary: "button-secondary",
+  nav: "button-nav",
+};
+
 export default function ButtonA({ text, variant = "primary", href, type = "button", className = "", ...props }) {
-  const styles = `${variant === "secondary" ? "button-secondary" : "button-primary"} ${className}`.trim();
+  const styles = `${variants[variant] ?? variants.primary} ${className}`.trim();
 
   if (href) {
     return (

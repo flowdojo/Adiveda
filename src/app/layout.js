@@ -1,10 +1,9 @@
 import "./globals.css";
 
-import SmoothScrolling from "@/providers/SmoothScrolling";
-import Footer from "@/components/layout/Footer";
+import SiteShell from "@/components/layout/SiteShell";
 
 export const metadata = {
-  title: "Flowdojo Styleguide Practice",
+  title: "adiveda-practice",
   description: "Modern Next.js Website",
 };
 
@@ -12,10 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <SmoothScrolling>
-          {children}
-          <Footer />
-        </SmoothScrolling>
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

@@ -1,13 +1,89 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: #ffffff;
-  --color-foreground: #171717;
-  --color-primary: #111111;
-  --color-secondary: #f3f3f3;
+@font-face {
+  font-family: "Ronzino";
+  src: url("/fonts/Ronzino-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-  --font-heading: "Arial", "Helvetica", sans-serif;
-  --font-body: "Arial", "Helvetica", sans-serif;
+@font-face {
+  font-family: "Ronzino";
+  src: url("/fonts/Ronzino-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ronzino";
+  src: url("/fonts/Ronzino-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src: url("/fonts/TiemposHeadline-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src: url("/fonts/TiemposHeadline-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src: url("/fonts/TiemposHeadline-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src: url("/fonts/TiemposHeadline-Semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src: url("/fonts/TiemposHeadline-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-brand-primary: #890808;
+  --color-brand-secondary: #c24a00;
+  --color-brand-bg-primary: #fcf6f6;
+  --color-brand-bg-secondary: #f6f1e7;
+  --color-brand-bg-tertiary: var(--color-brand-primary);
+  --color-brand-text-dark: #000000;
+  --color-brand-text-light: #ffffff;
+
+  --color-primary: var(--color-brand-primary);
+  --color-secondary: var(--color-brand-secondary);
+  --color-background: var(--color-brand-bg-primary);
+  --color-background-secondary: var(--color-brand-bg-secondary);
+  --color-background-tertiary: var(--color-brand-bg-tertiary);
+  --color-foreground: var(--color-brand-text-dark);
+  --color-text-dark: var(--color-brand-text-dark);
+  --color-text-light: var(--color-brand-text-light);
+
+  --font-heading: "Tiempos Headline", Georgia, serif;
+  --font-body: "Ronzino", Arial, Helvetica, sans-serif;
 
   --radius-default: 1rem;
   
@@ -90,18 +166,18 @@ html.lenis {
 }
 
 .container-large {
-  @apply w-full max-w-[1200px] mx-auto;
+  @apply w-full max-w-[1224px] mx-auto;
 }
 
 .container-xlarge {
-  @apply w-full max-w-[1440px] mx-auto;
+  @apply w-full max-w-[1376px] mx-auto;
 }
 
 /* =========================
    TYPOGRAPHY
 ========================= */
 .heading-h1 {
-  @apply font-heading text-[clamp(4rem,8vw,8rem)] leading-[0.95] font-bold;
+  @apply font-heading text-[clamp(2.5rem,8vw,4rem)] leading-[1.1] font-light;
 }
 
 .heading-h2 {
@@ -135,12 +211,79 @@ html.lenis {
 /* =========================
    BUTTONS
 ========================= */
+.button-primary,
+.button-secondary,
+.button-nav {
+  @apply text-[0.825rem] text-white rounded-full font-normal transition-colors duration-300 px-[38px] py-[0.825rem] inline-flex items-center justify-center;
+}
 .button-primary {
-  @apply inline-flex items-center justify-center gap-2 min-h-[3rem] px-6 bg-primary text-white rounded-full transition-all duration-300 hover:opacity-85;
+  @apply  gap-2 bg-primary border border-secondary hover:bg-secondary;
 }
 
 .button-secondary {
-  @apply inline-flex items-center justify-center gap-2 min-h-[3rem] px-6 bg-secondary text-foreground rounded-full transition-all duration-300 hover:opacity-80;
+  @apply  gap-2 bg-secondary border border-secondary  hover:bg-primary;
+}
+
+.button-nav {
+  @apply bg-secondary border border-secondary hover:bg-primary;
+}
+
+/* =========================
+   ANIMATION INITIAL STATES
+========================= */
+[fd-animate] {
+  will-change: transform, opacity, visibility;
+}
+
+[fd-animate="fade-up"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 100px, 0);
+}
+
+[fd-animate="fade-in-up"],
+[fd-animate="fade-in-bottom"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 80px, 0);
+}
+
+[fd-animate="fade-in-left"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(-80px, 0, 0);
+}
+
+[fd-animate="fade-in-right"] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(80px, 0, 0);
+}
+
+[fd-animate="child-fade-up"] > *,
+[fd-animate="child-fade-in-up"] > *,
+[fd-animate="child-fade-in-bottom"] > * {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 80px, 0);
+}
+
+[fd-animate="child-fade-in-left"] > * {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(-80px, 0, 0);
+}
+
+[fd-animate="child-fade-in-right"] > * {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(80px, 0, 0);
+}
+
+[fd-animate="heading-anime"] [data-fd-char] {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 110%, 0);
 }
 
 /* =========================
@@ -148,4 +291,26 @@ html.lenis {
 ========================= */
 .section-padding {
   @apply py-32;
+}
+
+
+
+
+/* =========================
+  Components
+========================= */
+.navbar-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px; /* border thickness */
+  border-radius: inherit;
+  background: linear-gradient(90deg, hsla(5, 94%, 47%, 1) 0%, hsla(5, 94%, 47%, 0) 15%, hsla(5, 94%, 47%, 0) 85%, hsla(5, 94%, 47%, 1) 100%);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none; /* keep it clickable through */
+  z-index: 1;
 }
