@@ -87,17 +87,19 @@ This keeps pages easy to edit and fast to build.
 A page schema should be a singleton document with a hero group and SEO group.
 
 ```js
+// Define a singleton page schema for Sanity
 import {defineField, defineType} from "sanity";
 
 export const servicesPage = defineType({
-  name: "servicesPage",
-  title: "Services Page",
+  name: "servicesPage", // schema type name
+  title: "Services Page", // label shown in Studio
   type: "document",
   groups: [
     {name: "hero", title: "Hero", default: true},
     {name: "seo", title: "SEO"},
   ],
   fields: [
+    // Hero content block
     defineField({
       name: "hero",
       title: "Hero",
@@ -122,18 +124,27 @@ export const servicesPage = defineType({
           type: "image",
           options: {hotspot: true},
           fields: [
-            defineField({name: "alt", title: "Alt Text", type: "string"}),
+            defineField({
+              name: "alt",
+              title: "Alt Text",
+              type: "string",
+            }),
           ],
         }),
       ],
     }),
+    // SEO fields for page metadata
     defineField({
       name: "seo",
       title: "SEO",
       type: "object",
       group: "seo",
       fields: [
-        defineField({name: "title", title: "Meta Title", type: "string"}),
+        defineField({
+          name: "title",
+          title: "Meta Title",
+          type: "string",
+        }),
         defineField({
           name: "description",
           title: "Meta Description",
@@ -192,6 +203,7 @@ export const servicesPage = defineType({
 #### 1. Register the schema
 
 ```js
+// Import the schema and add it to the shared Sanity schema list
 import {servicesPage} from "./servicesPage";
 
 export const schemaTypes = [
@@ -208,6 +220,7 @@ export const schemaTypes = [
 #### 2. Add Studio structure
 
 ```js
+// Add a singleton document entry for the page in the Studio menu
 S.listItem()
   .title("Services Page")
   .id("servicesPage")
@@ -221,6 +234,7 @@ S.listItem()
 #### 3. Add preview resolution
 
 ```js
+// Tell presentationTool how to preview this page in Studio
 presentationTool({
   previewUrl: {
     origin: "http://localhost:3000",
@@ -237,6 +251,7 @@ presentationTool({
 #### 4. Add the query helper
 
 ```js
+// A singleton GROQ query for the services page content
 export const servicesPageQuery = defineQuery(`*[_type == "servicesPage"] | order(_updatedAt desc)[0]{
   "heroTitle": hero.title,
   "heroSubtitle": hero.subtitle,
@@ -255,6 +270,7 @@ export async function getServicesPage() {
 #### 5. Create the route
 
 ```jsx
+// Page route that loads content from Sanity and falls back when needed
 import Navbar from "@/components/layout/Navbar";
 import {getServicesPage} from "@/sanity/queries";
 import {urlForImage} from "@/sanity/image";
