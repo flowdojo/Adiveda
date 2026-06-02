@@ -82,6 +82,83 @@ Most pages should start with a simple structure:
 
 This keeps pages easy to edit and fast to build.
 
+### Example page schema
+
+A page schema should be a singleton document with a hero group and SEO group.
+
+```js
+import {defineField, defineType} from "sanity";
+
+export const servicesPage = defineType({
+  name: "servicesPage",
+  title: "Services Page",
+  type: "document",
+  groups: [
+    {name: "hero", title: "Hero", default: true},
+    {name: "seo", title: "SEO"},
+  ],
+  fields: [
+    defineField({
+      name: "hero",
+      title: "Hero",
+      type: "object",
+      group: "hero",
+      fields: [
+        defineField({
+          name: "title",
+          title: "Title",
+          type: "string",
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: "subtitle",
+          title: "Subtitle",
+          type: "text",
+          rows: 3,
+        }),
+        defineField({
+          name: "backgroundImage",
+          title: "Background Image",
+          type: "image",
+          options: {hotspot: true},
+          fields: [
+            defineField({name: "alt", title: "Alt Text", type: "string"}),
+          ],
+        }),
+      ],
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "object",
+      group: "seo",
+      fields: [
+        defineField({name: "title", title: "Meta Title", type: "string"}),
+        defineField({
+          name: "description",
+          title: "Meta Description",
+          type: "text",
+          rows: 3,
+        }),
+      ],
+    }),
+  ],
+  preview: {
+    select: {
+      title: "hero.title",
+      media: "hero.backgroundImage",
+    },
+    prepare({title, media}) {
+      return {
+        title: title || "Services Page",
+        subtitle: "Singleton page",
+        media,
+      };
+    },
+  },
+});
+```
+
 ## Existing Sanity Content Types
 
 - `homePage` — Home hero, image, CTAs, and SEO
@@ -109,6 +186,120 @@ This keeps pages easy to edit and fast to build.
 5. Add a GROQ singleton query and fetch helper in `src/sanity/queries.js`.
 6. Create the page route under `src/app/`.
 7. Add fallback content so the site still renders when Sanity is not configured.
+
+### Example wiring for a new `servicesPage`
+
+#### 1. Register the schema
+
+```js
+import {servicesPage} from "./servicesPage";
+
+export const schemaTypes = [
+  cta,
+  author,
+  blogPost,
+  homePage,
+  blogPage,
+  aboutPage,
+  servicesPage,
+];
+```
+
+#### 2. Add Studio structure
+
+```js
+S.listItem()
+  .title("Services Page")
+  .id("servicesPage")
+  .child(
+    S.document()
+      .schemaType("servicesPage")
+      .documentId("servicesPage")
+  ),
+```
+
+#### 3. Add preview resolution
+
+```js
+presentationTool({
+  previewUrl: {
+    origin: "http://localhost:3000",
+    preview: "/api/draft-mode/enable",
+  },
+  resolve: {
+    locations: {
+      servicesPage: () => ({ title: "Services", href: "/services" }),
+    },
+  },
+});
+```
+
+#### 4. Add the query helper
+
+```js
+export const servicesPageQuery = defineQuery(`*[_type == "servicesPage"] | order(_updatedAt desc)[0]{
+  "heroTitle": hero.title,
+  "heroSubtitle": hero.subtitle,
+  "heroImage": hero.backgroundImage,
+  "heroImageAlt": coalesce(hero.backgroundImage.alt, "Services"),
+  seo
+}`);
+
+export async function getServicesPage() {
+  if (!client) return null;
+
+  return client.fetch(servicesPageQuery, {}, await getFetchOptions());
+}
+```
+
+#### 5. Create the route
+
+```jsx
+import Navbar from "@/components/layout/Navbar";
+import {getServicesPage} from "@/sanity/queries";
+import {urlForImage} from "@/sanity/image";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata() {
+  const page = await getServicesPage();
+
+  return {
+    title: page?.seo?.title || "Services - Adiveda",
+    description: page?.seo?.description || "A simple services page.",
+  };
+}
+
+export default async function ServicesPage() {
+  const page = (await getServicesPage()) || {
+    heroTitle: "Services",
+    heroSubtitle: "A fallback subtitle until Sanity is configured.",
+    heroImageAlt: "Services image",
+  };
+
+  const heroImageUrl = urlForImage(page.heroImage)?.width(1800).height(1000).url();
+
+  return (
+    <>
+      <Navbar />
+      <main>
+        <section>
+          <h1>{page.heroTitle}</h1>
+          <p>{page.heroSubtitle}</p>
+        </section>
+      </main>
+    </>
+  );
+}
+```
+
+#### 6. Fallback pattern
+
+Always keep fallback content in your page route so the app still works when Sanity is not configured:
+
+```js
+const page = (await getServicesPage()) || fallbackPage;
+```
 
 ## Developer Notes
 
