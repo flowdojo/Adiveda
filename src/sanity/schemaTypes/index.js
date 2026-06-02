@@ -2,5 +2,7 @@ import {author} from "./author";
 import {blogPost} from "./blogPost";
 import {cta} from "./cta";
 import {homePage} from "./homePage";
+import {blogPage} from "./blogPage";
+import {aboutPage} from "./aboutPage";
 
-export const schemaTypes = [cta, author, blogPost, homePage];
+export const schemaTypes = [cta, author, blogPost, homePage, blogPage, aboutPage];

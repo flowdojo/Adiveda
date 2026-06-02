@@ -1,7 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import BlogListing from "@/components/blog/BlogListing";
 import {sampleBlogs} from "@/lib/sampleBlogs";
-import {getBlogPosts} from "@/sanity/queries";
+import {getBlogPage, getBlogPosts} from "@/sanity/queries";
 import {urlForImage} from "@/sanity/image";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,19 @@ function withImageUrls(post) {
   };
 }
 
+export async function generateMetadata() {
+  const blogPage = await getBlogPage();
+
+  return {
+    title: blogPage?.seo?.title || "Blog - adiveda-practice",
+    description:
+      blogPage?.seo?.description ||
+      "Notes on Ayurveda, ritual, Panchang, and grounded practice.",
+  };
+}
+
 export default async function BlogPage() {
+  const blogPage = await getBlogPage();
   const sanityPosts = await getBlogPosts();
   const posts = (sanityPosts.length ? sanityPosts : sampleBlogs).map(withImageUrls);
 
@@ -25,10 +37,10 @@ export default async function BlogPage() {
           <div className="padding-global">
             <div className="container-xlarge space-y-12">
               <div className="max-w-3xl space-y-5">
-                <p className="eyebrow text-primary">Journal</p>
-                <h1 className="heading-h1">Blog</h1>
+                <p className="eyebrow text-primary">{blogPage?.eyebrow || "Journal"}</p>
+                <h1 className="heading-h1">{blogPage?.title || "Blog"}</h1>
                 <p className="text-body text-foreground/75">
-                  Notes on Ayurveda, ritual, Panchang, and grounded practice.
+                  {blogPage?.subtitle || "Notes on Ayurveda, ritual, Panchang, and grounded practice."}
                 </p>
               </div>
 

@@ -1,33 +1,38 @@
-# adiveda-practice
+# Adiveda Practice
 
-A modern Next.js project with Sanity CMS, smooth scrolling, GSAP-ready animations, responsive Tailwind CSS styling, and reusable layout primitives.
+Adiveda Practice is a Next.js App Router site for an Ayurveda-inspired content experience. It combines a CMS-backed home page, an embedded Sanity Studio, a blog listing with filters, dynamic blog detail pages, Lenis smooth scrolling, and GSAP-powered entrance animations.
+
+## Tech Stack
+
+- Next.js 16 with the App Router
+- React 19
+- Sanity CMS and embedded Sanity Studio
+- Tailwind CSS 4
+- Lenis for smooth scrolling
+- GSAP and ScrollTrigger for attribute-based animations
+- Local brand fonts from `public/fonts`
 
 ## Features
 
-- Smooth scrolling with Lenis
-- GSAP-ready animation setup
-- Mobile-first Tailwind CSS 4 styling
-- Next.js 16 and React 19
-- Sanity Studio embedded at `/studio`
-- CMS-backed home page and blog system
-- Blog listing with category filters
-- Dynamic blog detail pages created from Sanity slugs
-- Reusable Navbar, Footer, BlogListing, and Button components
-- Home, About, Blog, and Studio routes
+- CMS-backed home hero with fallback content
+- Embedded Studio at `/studio`
+- Blog listing at `/blog` with client-side category filters
+- Dynamic blog pages at `/blog/[slug]`
+- Blog table of contents generated from Sanity `h2` and `h3` body blocks
+- Related blog cards from the same category
+- Fallback sample blog content when Sanity is not configured or has no posts
+- Shared navbar, footer, button, animation, and smooth-scroll providers
+- Studio route excluded from the public site shell so Studio scrolling works normally
 
 ## Getting Started
 
 Install dependencies:
+
 ```bash
 npm install
 ```
 
-Create local env config only if needed:
-```bash
-cp .env.example .env.local
-```
-
-Add Sanity values to `.env.local`:
+Create `.env.local` in the project root when you are ready to connect Sanity:
 
 ```env
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
@@ -36,25 +41,184 @@ NEXT_PUBLIC_SANITY_API_VERSION=2026-05-22
 ```
 
 Run the development server:
+
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
-Open [http://localhost:3000/studio](http://localhost:3000/studio) to edit Sanity content.
+Open the site at:
+
+```txt
+http://localhost:3000
+```
+
+Open Sanity Studio at:
+
+```txt
+http://localhost:3000/studio
+```
+
+If `NEXT_PUBLIC_SANITY_PROJECT_ID` is missing, the website still renders using fallback content and `/studio` shows setup instructions.
 
 ## Scripts
 
 ```bash
-npm run dev      # Start development server
-npm run build    # Create production build
-npm run start    # Start production server
+npm run dev      # Start the Next.js development server
+npm run build    # Build the production app
+npm run start    # Run the production build
 npm run lint     # Run ESLint
 ```
 
-## Git Push Commands
+## Routes
 
-Use these when you want to save local changes and push them to GitHub:
+- `/` - Home page with a CMS-backed hero and local image fallback
+- `/about` - Static about page
+- `/blog` - Blog index with category filters
+- `/blog/[slug]` - Dynamic blog detail page from Sanity or sample fallback data
+- `/studio` - Embedded Sanity Studio
+
+## Project Structure
+
+```txt
+src/
+  animations/
+    initAnimations.js          # GSAP animation setup for fd-animate attributes
+  app/
+    layout.js                  # Root layout with SiteShell
+    globals.css                # Tailwind theme, fonts, utilities, button styles
+    page.js                    # CMS-backed home page
+    about/page.js              # Static about page
+    blog/page.js               # Blog listing route
+    blog/[slug]/page.js        # Blog detail route
+    studio/[[...tool]]/        # Embedded Sanity Studio route
+  components/
+    blog/BlogListing.jsx       # Client-side blog filters and cards
+    layout/Navbar.jsx          # Header and mobile menu
+    layout/Footer.jsx          # Site footer
+    layout/SiteShell.jsx       # Lenis, animations, footer, and Studio bypass
+    ui/ButtonA.jsx             # Shared button/link component
+  lib/
+    sampleBlogs.js             # Fallback blog posts
+  providers/
+    Animations.jsx             # Re-runs animations on route changes
+    SmoothScrolling.jsx        # Lenis setup and scroll lock helpers
+  sanity/
+    client.js                  # Sanity client, disabled when project ID is absent
+    env.js                     # Sanity environment defaults
+    image.js                   # Sanity image URL builder
+    queries.js                 # GROQ queries and fetch helpers
+    schemaTypes/               # Sanity schemas
+public/
+  fonts/                       # Ronzino and Tiempos Headline font files
+  images/home-hero-bg.png      # Home hero fallback image
+```
+
+## Sanity Content
+
+Schema files live in `src/sanity/schemaTypes/`:
+
+- `homePage` - home hero title, subtitle, background image, CTAs, and SEO
+- `blogPost` - heading, slug, excerpt, body, cover image, date, category, author, and SEO
+- `author` - author name, slug, image, and bio
+- `cta` - reusable button label and link object
+
+Queries live in `src/sanity/queries.js`. Fetch helpers return fallback-friendly values when Sanity is not configured:
+
+- `getHomePage()` returns `null`
+- `getBlogPosts()` returns `[]`
+- `getBlogPost(slug)` returns `null`
+- `getRelatedBlogPosts({slug, category})` returns `[]`
+
+## Blog Workflow
+
+Create an `Author` document first, then create a `Blog Post`.
+
+Required blog fields:
+
+- Heading
+- Slug
+- Excerpt
+- Date
+- Category
+- Author
+
+Recommended fields:
+
+- Body
+- Cover image and alt text
+- SEO title and description
+
+The current blog categories are:
+
+- Ayurveda
+- Rituals
+- Panchang
+- Wellbeing
+
+To edit category options, update the `category` field in `src/sanity/schemaTypes/blogPost.js`.
+
+Blog body content currently renders plain Sanity block text. `h2` and `h3` blocks are also used to build the table of contents on the blog detail page.
+
+## Styling
+
+The visual system is defined mostly in `src/app/globals.css`:
+
+- Local fonts: `Ronzino` for body text and `Tiempos Headline` for headings
+- Theme tokens inside `@theme`
+- Layout utilities such as `.padding-global`, `.section-padding`, and `.container-xlarge`
+- Typography utilities such as `.heading-h1`, `.heading-h5`, `.text-body`, and `.eyebrow`
+- Button utilities: `.button-primary`, `.button-secondary`, and `.button-nav`
+- Animation initial states for `fd-animate`
+
+Tailwind theme extensions are mirrored in `tailwind.config.js` for colors, fonts, screens, radius, and spacing.
+
+## Animations
+
+Use the `fd-animate` attribute on elements:
+
+```jsx
+<h2 fd-animate="heading-anime">Animated heading</h2>
+<div fd-animate="child-fade-up">
+  <p>First child</p>
+  <p>Second child</p>
+</div>
+```
+
+Supported values are defined in `src/animations/initAnimations.js`:
+
+- `fade-up`
+- `fade-in-up`
+- `fade-in-bottom`
+- `fade-in-left`
+- `fade-in-right`
+- `child-fade-up`
+- `child-fade-in-up`
+- `child-fade-in-bottom`
+- `child-fade-in-left`
+- `child-fade-in-right`
+- `heading-anime`
+
+## Page Building
+
+Use `page-build.md` for the step-by-step workflow to add a new Sanity-powered page, wire its schema, query it, render it in `src/app`, and publish content in Studio.
+
+## Deployment
+
+For Vercel:
+
+1. Push the repository to GitHub.
+2. Import it into Vercel.
+3. Add the Sanity environment variables.
+4. Deploy.
+
+For any platform that supports Next.js:
+
+```bash
+npm run build
+npm run start
+```
+
+## Git Push Commands
 
 ```bash
 git status
@@ -62,240 +226,3 @@ git add -A
 git commit -m "Describe your changes"
 git push origin main
 ```
-
-If you are on another branch, check the branch name:
-
-```bash
-git branch --show-current
-```
-
-Then push that branch:
-
-```bash
-git push origin your-branch-name
-```
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── layout.js              # Root layout with SiteShell
-│   ├── page.js                # CMS-backed home page
-│   ├── globals.css            # Global styles and Tailwind directives
-│   ├── about/page.js          # About page
-│   ├── blog/page.js           # Blog listing with filters
-│   ├── blog/[slug]/page.js    # Dynamic Sanity blog page
-│   └── studio/                # Embedded Sanity Studio
-├── components/
-│   ├── blog/
-│   │   └── BlogListing.jsx    # Client-side blog category filters
-│   ├── layout/
-│   │   ├── Navbar.jsx         # Navigation with mobile menu
-│   │   ├── Footer.jsx         # Footer component
-│   │   └── SiteShell.jsx      # Skips Lenis/Footer on /studio
-│   └── ui/
-│       └── ButtonA.jsx        # Shared button/link component
-├── sanity/
-│   ├── client.js              # Sanity client
-│   ├── queries.js             # GROQ queries
-│   └── schemaTypes/           # Sanity schemas
-├── lib/
-│   └── sampleBlogs.js         # Fallback sample blog content
-├── providers/
-│   ├── Animations.jsx         # Animation provider
-│   └── SmoothScrolling.jsx    # Lenis smooth scroll provider
-└── animations/
-    └── initAnimations.js      # GSAP animation setup
-```
-
-## Pages
-
-- `/` - Home page with hero section
-- `/about` - About page
-- `/blog` - Blog listing with category filters
-- `/blog/[slug]` - Blog detail page generated from Sanity post slugs
-- `/studio` - Sanity Studio
-
-## Sanity Content
-
-Schemas live in `src/sanity/schemaTypes/`:
-
-- `homePage` - home hero content and SEO
-- `blogPost` - heading, slug, excerpt, body, cover image, date, category, author, SEO
-- `author` - author name, slug, image, and bio
-- `cta` - reusable button label/link object
-
-Queries live in `src/sanity/queries.js`.
-
-Published blog posts create pages automatically from their slug:
-
-```txt
-/blog/my-post-slug
-```
-
-Blog detail pages include:
-
-- Heading
-- Date
-- Category
-- Author name and image
-- Body content
-- Table of contents from `h2` and `h3` body headings
-- Related blogs from the same category
-
-See `page-guide.md` for the step-by-step page creation tutorial.
-
-## Components
-
-### Navbar
-
-```jsx
-import Navbar from "@/components/layout/Navbar";
-
-export default function Page() {
-  return <Navbar />;
-}
-```
-
-The root layout already includes `Footer`, so pages only need to render their page-specific content and any page-level navigation.
-
-### BlogListing
-
-`BlogListing` renders the blog cards and category filters. It is used by `src/app/blog/page.js`.
-
-## Global Utilities
-
-- `.section-padding` - Vertical padding for sections
-- `.padding-global` - Horizontal padding
-- `.container-{size}` - Responsive max-width containers
-- `.heading-{h1-h6}` - Predefined heading styles
-- `.text-body` - Body text styling
-- `.eyebrow` - Small uppercase label
-- `.button-primary` / `.button-secondary` - Button styles
-
-<details>
-<summary>Setup And Configuration</summary>
-
-### Environment Variables
-
-Create `.env.local` with the Sanity values:
-
-```env
-NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
-NEXT_PUBLIC_SANITY_DATASET=production
-NEXT_PUBLIC_SANITY_API_VERSION=2026-05-22
-```
-
-### Tailwind
-
-Tailwind CSS 4 is configured through:
-
-- `src/app/globals.css` for `@theme`, custom utilities, resets, and Lenis styles
-- `tailwind.config.js` for colors, fonts, breakpoints, radius, and spacing
-- `postcss.config.mjs` for the Tailwind PostCSS plugin
-
-### Smooth Scrolling
-
-Lenis is configured in `src/providers/SmoothScrolling.jsx` with:
-
-- `lerp: 0.08`
-- `smoothTouch: false`
-- `normalizeWheel: true`
-- `window.lenisCustomStart()`
-- `window.lenisCustomStop()`
-
-### Animations
-
-GSAP animation setup lives in `src/animations/initAnimations.js`. Add `fd-animate` attributes to elements when wiring scroll or entrance animations.
-
-</details>
-
-<details>
-<summary>Styling Guide</summary>
-
-### Theme Variables
-
-Edit in `src/app/globals.css` under `@theme`:
-
-```css
-@theme {
-  --color-primary: #890808;
-  --color-secondary: #c24a00;
-  --color-background: #fcf6f6;
-  --color-background-secondary: #f6f1e7;
-  --color-background-tertiary: var(--color-primary);
-  --color-text-dark: #000000;
-  --color-text-light: #ffffff;
-  --color-foreground: var(--color-text-dark);
-  --font-heading: "Arial", "Helvetica", sans-serif;
-  --radius-default: 1rem;
-}
-```
-
-### Typography
-
-```jsx
-<h1 className="heading-h1">Main Title</h1>
-<h2 className="heading-h2">Section Title</h2>
-<p className="text-body">Regular paragraph</p>
-<p className="eyebrow">Small uppercase label</p>
-```
-
-### Layout
-
-```jsx
-<section className="section-padding">
-  <div className="padding-global">
-    <div className="container-xlarge">Content</div>
-  </div>
-</section>
-```
-
-### Buttons
-
-```jsx
-<button className="button-primary">Primary Button</button>
-<button className="button-secondary">Secondary Button</button>
-```
-
-### Best Practices
-
-- Use Tailwind utilities first for one-off layout and spacing.
-- Use semantic color classes like `bg-primary`, `bg-secondary`, `bg-background-secondary`, `bg-tertiary`, `text-dark`, and `text-light`.
-- Add reusable composed classes in `globals.css` with `@apply` only when the pattern repeats.
-- Keep new design tokens mirrored between `@theme` in `globals.css` and `theme.extend` in `tailwind.config.js`.
-
-</details>
-
-<details>
-<summary>Deployment</summary>
-
-### Vercel
-
-1. Push code to GitHub.
-2. Connect the repository to Vercel.
-3. Add any required environment variables in the Vercel dashboard.
-4. Deploy automatically on push.
-
-```bash
-vercel deploy
-```
-
-### Other Platforms
-
-Build and start the production server:
-
-```bash
-npm run build
-npm run start
-```
-
-</details>
-
-## Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS](https://tailwindcss.com/docs)
-- [Lenis Documentation](https://lenis.studiofreight.com/)
-- [GSAP Documentation](https://gsap.com/docs/)

@@ -1,11 +1,20 @@
 import Navbar from "@/components/layout/Navbar";
+import {getAboutPage} from "@/sanity/queries";
 
-export const metadata = {
-  title: "About - adiveda-practice",
-  description: "Learn more about adiveda-practice and our approach to modern web development.",
-};
+export async function generateMetadata() {
+  const aboutPage = await getAboutPage();
 
-export default function AboutPage() {
+  return {
+    title: aboutPage?.seo?.title || "About - adiveda-practice",
+    description:
+      aboutPage?.seo?.description ||
+      "Learn more about adiveda-practice and our approach to modern web development.",
+  };
+}
+
+export default async function AboutPage() {
+  const aboutPage = await getAboutPage();
+
   return (
     <>
       <Navbar />
@@ -15,8 +24,11 @@ export default function AboutPage() {
           <div className="padding-global w-full">
             <div className="container-xlarge">
               <div className="text-center ">
-                <p className="eyebrow mb-4">About Us</p>
-                <h1 className="heading-h1">About Us</h1>
+                <p className="eyebrow mb-4">{aboutPage?.eyebrow || "About Us"}</p>
+                <h1 className="heading-h1">{aboutPage?.title || "About Us"}</h1>
+                {aboutPage?.subtitle ? (
+                  <p className="mx-auto mt-4 max-w-2xl text-body text-foreground/75">{aboutPage.subtitle}</p>
+                ) : null}
               </div>
             </div>
           </div>
