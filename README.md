@@ -26,7 +26,7 @@ Adiveda Practice is a Next.js App Router site for an Ayurveda-inspired content e
 
 ## Getting Started
 
-Install dependencies:
+Install dependencies: 
 
 ```bash
 npm install

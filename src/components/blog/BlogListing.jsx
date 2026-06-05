@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import {useMemo, useState} from "react";
 
+import Eyebrow from "@/components/ui/Eyebrow";
+
 function formatDate(date) {
   if (!date) {
     return "";
@@ -66,7 +68,7 @@ export default function BlogListing({posts}) {
                 />
               ) : (
                 <div className="flex h-full items-center justify-center bg-primary text-white">
-                  <span className="eyebrow">{post.category}</span>
+                  <Eyebrow as="span">{post.category}</Eyebrow>
                 </div>
               )}
             </div>

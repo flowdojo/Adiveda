@@ -1,4 +1,5 @@
 import Navbar from "@/components/layout/Navbar";
+import Eyebrow from "@/components/ui/Eyebrow";
 import {getAboutPage} from "@/sanity/queries";
 
 export async function generateMetadata() {
@@ -24,7 +25,7 @@ export default async function AboutPage() {
           <div className="padding-global w-full">
             <div className="container-xlarge">
               <div className="text-center ">
-                <p className="eyebrow mb-4">{aboutPage?.eyebrow || "About Us"}</p>
+                <Eyebrow className="mb-4">{aboutPage?.eyebrow || "About Us"}</Eyebrow>
                 <h1 className="heading-h1">{aboutPage?.title || "About Us"}</h1>
                 {aboutPage?.subtitle ? (
                   <p className="mx-auto mt-4 max-w-2xl text-body text-foreground/75">{aboutPage.subtitle}</p>

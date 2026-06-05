@@ -27,6 +27,7 @@ plugins: [
         homePage: () => ({title: "Home", href: "/"}),
         blogPage: () => ({title: "Blog", href: "/blog"}),
         aboutPage: () => ({title: "About", href: "/about"}),
+        contactPage: () => ({title: "Contact", href: "/contact"}),
         blogPost: (doc) => ({
           title: doc.title || "Blog Post",
           href: doc.slug?.current ? `/blog/${doc.slug.current}` : "/blog",

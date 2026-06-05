@@ -28,12 +28,20 @@ export const structure = (S) =>
             .schemaType("aboutPage")
             .documentId("aboutPage")
         ),
+      S.listItem()
+        .title("Contact Page")
+        .id("contactPage")
+        .child(
+          S.document()
+            .schemaType("contactPage")
+            .documentId("contactPage")
+        ),
 
       S.divider(),
 
       ...S.documentTypeListItems().filter(
         (item) =>
-          !["homePage", "blogPage", "aboutPage"].includes(
+          !["homePage", "blogPage", "aboutPage", "contactPage"].includes(
             item.getId()
           )
       ),

@@ -13,6 +13,8 @@ const tailwindConfig = {
         "brand-bg-primary": "var(--color-brand-bg-primary, #fcf6f6)",
         "brand-bg-secondary": "var(--color-brand-bg-secondary, #f6f1e7)",
         "brand-bg-tertiary": "var(--color-brand-bg-tertiary, #890808)",
+        "brand-bg-beige": "var(--color-brand-bg-beige, #E7DDC6)",
+        "brand-orange": "var(  --color-brand-orange, #ED620C)",
         "brand-text-dark": "var(--color-brand-text-dark, #000000)",
         "brand-text-light": "var(--color-brand-text-light, #ffffff)",
         background: "var(--color-background, #fcf6f6)",

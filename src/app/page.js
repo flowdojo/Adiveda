@@ -12,10 +12,12 @@ const fallbackHomePage = {
   primaryCta: {
     label: "Get Started",
     href: "#",
+    variant: "primary",
   },
   secondaryCta: {
     label: "Learn More",
     href: "#",
+    variant: "secondary",
   },
   heroImageAlt: "Hero Background",
 };
@@ -45,11 +47,12 @@ export default async function HomePage() {
                       <ButtonA
                         href={homePage.secondaryCta?.href || "#"}
                         text={homePage.secondaryCta?.label || "Learn More"}
-                        variant="secondary"
+                        variant={homePage.secondaryCta?.variant || "secondary"}
                       />
                       <ButtonA
                         href={homePage.primaryCta?.href || "#"}
                         text={homePage.primaryCta?.label || "Get Started"}
+                        variant={homePage.primaryCta?.variant || "primary"}
                       />
         
                     </div>

@@ -60,6 +60,7 @@ export const homePage = defineType({
           initialValue: {
             label: "Learn More",
             href: "#",
+            variant: "secondary",
           },
         }),
         defineField({
@@ -69,6 +70,7 @@ export const homePage = defineType({
           initialValue: {
             label: "Get Started",
             href: "#",
+            variant: "primary",
           },
         }),
       ],

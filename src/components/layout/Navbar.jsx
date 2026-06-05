@@ -10,6 +10,7 @@ const navItems = [
   { href: "/blog", label: "Blog" },
   { href: "#panchang", label: "Panchang" },
   { href: "#community", label: "Community" },
+  { href: "/contact", label: "Contact" },
 ];
 
 function Logo() {
@@ -53,14 +54,14 @@ export default function Navbar() {
   return (
     <header className="navbar fixed left-0 top-0 z-50 w-full px-3 py-4 md:px-5">
       <div className="mx-auto max-w-[1156px]">
-        <div className="navbar-container relative flex py-[0.75rem] items-center justify-between rounded-full  bg-[#c8ad8d] px-7 shadow-[0_18px_50px_rgba(137,8,8,0.12)] md:px-4 md:pl-7">
+        <div className="navbar-container h-full items-stretch relative flex py-2.5  justify-between rounded-full  bg-[#c8ad8d] px-7 shadow-[0_18px_50px_rgba(137,8,8,0.12)] md:px-4 md:pl-7">
           <Link href="/" aria-label="Hridhayam home" className="flex items-center">
             <Logo />
           </Link>
 
-          <nav className="hidden items-center py-[0.5rem] gap-9 text-[0.825rem] leading-none text-brand-text-light md:flex">
+          <nav className="flex justify-items-center items-center text-[0.825rem] leading-none  ">
             {navItems.map((item) => (
-              <Link key={item.label} href={item.href} className="transition hover:text-brand-bg-secondary">
+              <Link key={item.label} href={item.href} className="flex justify-items-center items-center h-full text-brand-text-light px-2 transition hover:text-brand-primary">
                 {item.label}
               </Link>
             ))}

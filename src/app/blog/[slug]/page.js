@@ -3,6 +3,7 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 
 import Navbar from "@/components/layout/Navbar";
+import Eyebrow from "@/components/ui/Eyebrow";
 import {findSampleBlog, getSampleRelatedBlogs} from "@/lib/sampleBlogs";
 import {getBlogPost, getRelatedBlogPosts} from "@/sanity/queries";
 import {urlForImage} from "@/sanity/image";
@@ -91,7 +92,7 @@ function TableOfContents({items}) {
 
   return (
     <aside className="rounded-lg border border-primary/15 bg-white p-5">
-      <p className="eyebrow text-primary">Contents</p>
+      <Eyebrow className="text-primary">Contents</Eyebrow>
       <nav className="mt-5 space-y-3">
         {items.map((item) => (
           <a
@@ -169,7 +170,7 @@ function RelatedBlogs({posts}) {
         <div className="container-xlarge space-y-8">
           <div className="flex items-end justify-between gap-6">
             <div>
-              <p className="eyebrow text-primary">Read Next</p>
+              <Eyebrow className="text-primary">Read Next</Eyebrow>
               <h2 className="heading-h4">Related Blogs</h2>
             </div>
             <Link href="/blog" className="text-sm font-medium text-primary">
@@ -184,7 +185,7 @@ function RelatedBlogs({posts}) {
                 href={`/blog/${post.slug}`}
                 className="rounded-lg border border-primary/15 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"
               >
-                <p className="eyebrow text-primary">{post.category}</p>
+                <Eyebrow className="text-primary">{post.category}</Eyebrow>
                 <h3 className="heading-h5 mt-4">{post.title}</h3>
                 <p className="text-body mt-3 text-foreground/75">{post.excerpt}</p>
               </Link>
@@ -270,7 +271,7 @@ export default async function BlogPostPage({params}) {
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center bg-primary text-white">
-                      <span className="eyebrow">{post.category}</span>
+                      <Eyebrow as="span">{post.category}</Eyebrow>
                     </div>
                   )}
                 </div>

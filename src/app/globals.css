@@ -72,7 +72,8 @@
   --color-brand-bg-tertiary: var(--color-brand-primary);
   --color-brand-text-dark: #000000;
   --color-brand-text-light: #ffffff;
-
+  --color-brand-bg-beige: #E7DDC6;
+  --color-brand-orange: #ED620C;
   --color-primary: var(--color-brand-primary);
   --color-secondary: var(--color-brand-secondary);
   --color-background: var(--color-brand-bg-primary);
@@ -86,7 +87,7 @@
   --font-body: "Ronzino", Arial, Helvetica, sans-serif;
 
   --radius-default: 1rem;
-  
+
   /* Custom breakpoints */
   --breakpoint-xsmall: 480px;
   --breakpoint-small: 768px;
@@ -101,17 +102,14 @@ html {
 }
 
 body {
-  @apply bg-background text-foreground font-body;
+  @apply bg-background text-foreground font-body text-sm tracking-[-0.03em];
 }
 
 img {
   @apply w-full block;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+
 
 button {
   background: none;
@@ -177,27 +175,36 @@ html.lenis {
    TYPOGRAPHY
 ========================= */
 .heading-h1 {
-  @apply font-heading text-[clamp(2.5rem,8vw,4rem)] leading-[1.1] font-light;
+  @apply font-heading font-light;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  line-height: 1.1;
 }
 
 .heading-h2 {
-  @apply font-heading text-[clamp(3rem,6vw,6rem)] leading-[1] font-bold;
+  @apply font-heading font-light;
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 1;
 }
 
 .heading-h3 {
-  @apply font-heading text-[clamp(2rem,4vw,4rem)] leading-[1.1] font-bold;
+  @apply font-heading font-light;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1.1;
 }
 
 .heading-h4 {
-  @apply font-heading text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.1] font-bold;
+  @apply font-heading font-light;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.1;
 }
 
 .heading-h5 {
-  @apply font-heading text-2xl leading-[1.2] font-bold;
+  @apply font-heading font-light;
+  font-size: clamp(1.5rem, 3vw, 2rem);
 }
 
 .heading-h6 {
-  @apply font-heading text-xl leading-[1.2] font-bold;
+  @apply font-heading text-xl leading-[1.2] font-light;
 }
 
 .text-body {
@@ -205,7 +212,7 @@ html.lenis {
 }
 
 .eyebrow {
-  @apply text-xs tracking-widest uppercase;
+  @apply text-xs tracking-widest;
 }
 
 /* =========================
@@ -216,12 +223,14 @@ html.lenis {
 .button-nav {
   @apply text-[0.825rem] text-white rounded-full font-normal transition-colors duration-300 px-[38px] py-[0.825rem] inline-flex items-center justify-center;
 }
+
 .button-primary {
-  @apply  gap-2 bg-primary border border-secondary hover:bg-secondary;
+  @apply gap-2 bg-primary border border-secondary hover:bg-secondary;
+  text-box-trim: none;
 }
 
 .button-secondary {
-  @apply  gap-2 bg-secondary border border-secondary  hover:bg-primary;
+  @apply gap-2 bg-secondary border border-secondary hover:bg-primary;
 }
 
 .button-nav {
@@ -260,21 +269,21 @@ html.lenis {
   transform: translate3d(80px, 0, 0);
 }
 
-[fd-animate="child-fade-up"] > *,
-[fd-animate="child-fade-in-up"] > *,
-[fd-animate="child-fade-in-bottom"] > * {
+[fd-animate="child-fade-up"]>*,
+[fd-animate="child-fade-in-up"]>*,
+[fd-animate="child-fade-in-bottom"]>* {
   opacity: 0;
   visibility: hidden;
   transform: translate3d(0, 80px, 0);
 }
 
-[fd-animate="child-fade-in-left"] > * {
+[fd-animate="child-fade-in-left"]>* {
   opacity: 0;
   visibility: hidden;
   transform: translate3d(-80px, 0, 0);
 }
 
-[fd-animate="child-fade-in-right"] > * {
+[fd-animate="child-fade-in-right"]>* {
   opacity: 0;
   visibility: hidden;
   transform: translate3d(80px, 0, 0);
@@ -290,7 +299,7 @@ html.lenis {
    SECTION PADDING
 ========================= */
 .section-padding {
-  @apply py-32;
+  @apply py-20;
 }
 
 
@@ -303,14 +312,19 @@ html.lenis {
   content: "";
   position: absolute;
   inset: 0;
-  padding: 1px; /* border thickness */
+  padding: 1px;
+  /* border thickness */
   border-radius: inherit;
   background: linear-gradient(90deg, hsla(5, 94%, 47%, 1) 0%, hsla(5, 94%, 47%, 0) 15%, hsla(5, 94%, 47%, 0) 85%, hsla(5, 94%, 47%, 1) 100%);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  pointer-events: none; /* keep it clickable through */
+  mask-composite: exclude;
+  pointer-events: none;
+  /* keep it clickable through */
   z-index: 1;
+}
+.input-field {
+  @apply min-h-12 rounded-xl border border-[#ECC7B1] bg-white px-6 py-5 text-sm outline-none transition focus:border-brand-orange;
 }

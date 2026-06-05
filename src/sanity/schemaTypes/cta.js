@@ -18,6 +18,21 @@ export const cta = defineType({
       initialValue: "#",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "variant",
+      title: "Button Variant",
+      type: "string",
+      options: {
+        list: [
+          {title: "Primary", value: "primary"},
+          {title: "Secondary", value: "secondary"},
+          {title: "Nav", value: "nav"},
+        ],
+        layout: "radio",
+      },
+      initialValue: "primary",
+      validation: (Rule) => Rule.required(),
+    }),
   ],
   preview: {
     select: {

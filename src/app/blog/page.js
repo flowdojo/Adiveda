@@ -1,5 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import BlogListing from "@/components/blog/BlogListing";
+import Eyebrow from "@/components/ui/Eyebrow";
 import {sampleBlogs} from "@/lib/sampleBlogs";
 import {getBlogPage, getBlogPosts} from "@/sanity/queries";
 import {urlForImage} from "@/sanity/image";
@@ -37,7 +38,7 @@ export default async function BlogPage() {
           <div className="padding-global">
             <div className="container-xlarge space-y-12">
               <div className="max-w-3xl space-y-5">
-                <p className="eyebrow text-primary">{blogPage?.eyebrow || "Journal"}</p>
+                <Eyebrow className="text-primary">{blogPage?.eyebrow || "Journal"}</Eyebrow>
                 <h1 className="heading-h1">{blogPage?.title || "Blog"}</h1>
                 <p className="text-body text-foreground/75">
                   {blogPage?.subtitle || "Notes on Ayurveda, ritual, Panchang, and grounded practice."}
