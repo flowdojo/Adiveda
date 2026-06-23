@@ -1,0 +1,78 @@
+import { createRadioListLayout } from '@/utils/schema';
+import { defineField, defineType } from 'sanity';
+import { Link } from 'lucide-react';
+
+const linkableTypes = [
+  { type: 'page' },
+  { type: 'blogPost' },
+];
+
+
+export default defineType({
+  name: 'link',
+  type: 'object',
+  icon: Link,
+  fields: [
+    defineField({
+      name: 'type',
+      type: 'string',
+      options: createRadioListLayout(['internal', 'external']),
+      initialValue: () => 'internal',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'openInNewTab',
+      title: 'Open in new tab',
+      type: 'boolean',
+      description: 'If checked, the link will open in a new tab.',
+      initialValue: () => false,
+    }),
+    defineField({
+      name: 'external',
+      type: 'url',
+      title: 'URL',
+      hidden: ({ parent }) => parent?.type !== 'external',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent;
+          if (parent.type === 'external' && !value) {
+            return 'URL is required when link type is external';
+          }
+          return true;
+        }),
+      description: 'Please enter a valid URL starting with http or https://',
+    }),
+    defineField({
+      name: 'href',
+      type: 'string',
+      initialValue: () => '#',
+      hidden: true,
+      readOnly: true,
+    }),
+    defineField({
+      name: 'internal',
+      type: 'reference',
+      options: { disableNew: true },
+      hidden: ({ parent }) => parent?.type !== 'internal',
+      to: linkableTypes,
+    }),
+  ],
+  preview: {
+    select: {
+      externalUrl: 'external',
+      urlType: 'type',
+      internalUrl: 'internal.slug.current',
+      openInNewTab: 'openInNewTab',
+    },
+    prepare({ externalUrl, urlType, internalUrl, openInNewTab }) {
+      const url = urlType === 'external' ? externalUrl : `/${internalUrl}`;
+      const newTabIndicator = openInNewTab ? ' ↗' : '';
+      const truncatedUrl = url?.length > 30 ? `${url.substring(0, 30)}...` : url;
+
+      return {
+        title: `${urlType === 'external' ? 'External' : 'Internal'} Link`,
+        subtitle: `${truncatedUrl}${newTabIndicator}`,
+      };
+    },
+  },
+});
