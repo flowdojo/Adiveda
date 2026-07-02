@@ -1,7 +1,11 @@
 import {projectId} from "@/sanity/env";
-import StudioLoader from "./StudioLoader";
+// import StudioLoader from "./StudioLoader";
+import { NextStudio } from "next-sanity/studio";
+import sanityConfig from "../../../../sanity.config";
+
 
 export const dynamic = "force-static";
+
 
 export default function StudioPage() {
   if (!projectId) {
@@ -22,5 +26,5 @@ export default function StudioPage() {
     );
   }
 
-  return <StudioLoader />;
+  return <NextStudio config={sanityConfig} />;
 }

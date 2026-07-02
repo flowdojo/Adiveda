@@ -1,8 +1,8 @@
 import Navbar from "@/components/layout/Navbar";
 import ButtonA from "@/components/ui/ButtonA";
 import Image from "next/image";
-import {getHomePage} from "@/sanity/queries";
-import {urlForImage} from "@/sanity/image";
+import { getHomePage } from "@/sanity/queries";
+import { urlForImage } from "@/sanity/image";
 
 export const dynamic = "force-dynamic";
 
@@ -30,45 +30,45 @@ export default async function HomePage() {
     <>
       <Navbar />
       <main>
-         <section className="section-padding relative min-h-screen flex items-center overflow-hidden">
-              <div className="padding-global relative z-10 w-full">
-                <div className="container-xlarge">
-                  <div className="max-w-[565px] mx-auto flex flex-col items-center text-center text-white gap-16">
-                    <div className="flex flex-col items-center gap-6">
-                      <h1  className="heading-h1">
-                        {homePage.heroTitle}
-                      </h1>
-                        <p fd-animate="heading-anime" className="text-base">
-                        {homePage.heroSubtitle}
-                      </p>
-                    </div>
-        
-                    <div fd-animate="child-fade-up" className="flex flex-wrap gap-4">
-                      <ButtonA
-                        href={homePage.secondaryCta?.href || "#"}
-                        text={homePage.secondaryCta?.label || "Learn More"}
-                        variant={homePage.secondaryCta?.variant || "secondary"}
-                      />
-                      <ButtonA
-                        href={homePage.primaryCta?.href || "#"}
-                        text={homePage.primaryCta?.label || "Get Started"}
-                        variant={homePage.primaryCta?.variant || "primary"}
-                      />
-        
-                    </div>
-                  </div>
+        <section className="section-padding relative min-h-screen flex items-center overflow-hidden">
+          <div className="padding-global relative z-10 w-full">
+            <div className="container-xlarge">
+              <div className="max-w-141.25 mx-auto flex flex-col items-center text-center text-white gap-16">
+                <div className="flex flex-col items-center gap-6">
+                  <h1 className="text-h1">
+                    {homePage.heroTitle}
+                  </h1>
+                  <p fd-animate="heading-anime" className="text-base">
+                    {homePage.heroSubtitle}
+                  </p>
+                </div>
+
+                <div fd-animate="child-fade-up" className="flex flex-wrap gap-4">
+                  <ButtonA
+                    href={homePage.secondaryCta?.href || "#"}
+                    text={homePage.secondaryCta?.label || "Learn More"}
+                    variant={homePage.secondaryCta?.variant || "secondary"}
+                  />
+                  <ButtonA
+                    href={homePage.primaryCta?.href || "#"}
+                    text={homePage.primaryCta?.label || "Get Started"}
+                    variant={homePage.primaryCta?.variant || "primary"}
+                  />
+
                 </div>
               </div>
-              <div className="absolute inset-0">
-                <Image
-                  src={heroImageUrl || "/images/home-hero-bg.png"}
-                  alt={homePage.heroImageAlt || "Hero Background"}
-                  fill
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </section>
+            </div>
+          </div>
+          <div className="absolute inset-0">
+            <Image
+              src={heroImageUrl || "/images/home-hero-bg.png"}
+              alt={homePage.heroImageAlt || "Hero Background"}
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
+        </section>
       </main>
     </>
   );

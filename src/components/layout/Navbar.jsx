@@ -77,24 +77,24 @@ export default function Navbar() {
           <button
             type="button"
             onClick={toggleMenu}
-            className="relative z-[60] flex h-12 w-12 items-center justify-center rounded-full bg-secondary md:hidden"
+            className="relative z-60 flex h-12 w-12 items-center justify-center rounded-full bg-secondary md:hidden"
             aria-label={isOpen ? "Close menu" : "Open menu"}
             aria-expanded={isOpen}
           >
             <span className="relative flex h-5 w-6 flex-col justify-between">
               <span
-                className={`block h-[2px] w-full bg-brand-text-light transition-all duration-300 ${
-                  isOpen ? "translate-y-[9px] rotate-45" : ""
+                className={`block h-0.55 w-full bg-brand-text-light transition-all duration-300 ${
+                  isOpen ? "translate-y-2.25 rotate-45" : ""
                 }`}
               />
               <span
-                className={`block h-[2px] w-full bg-brand-text-light transition-all duration-300 ${
+                className={`block h-0.5 w-full bg-brand-text-light transition-all duration-300 ${
                   isOpen ? "opacity-0" : ""
                 }`}
               />
               <span
-                className={`block h-[2px] w-full bg-brand-text-light transition-all duration-300 ${
-                  isOpen ? "-translate-y-[9px] -rotate-45" : ""
+                className={`block h-0.5 w-full bg-brand-text-light transition-all duration-300 ${
+                  isOpen ? "-translate-y-2.25 -rotate-45" : ""
                 }`}
               />
             </span>
@@ -122,7 +122,7 @@ export default function Navbar() {
             href="#begin-journey"
             text="Begin Journey"
             variant="nav"
-            className="mt-2 min-h-[3.5rem] px-8 text-xl hover:bg-brand-bg-secondary hover:text-primary"
+            className="mt-2 min-h-14 px-8 text-xl hover:bg-brand-bg-secondary hover:text-primary"
             onClick={toggleMenu}
           />
         </nav>

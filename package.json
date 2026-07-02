@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@sanity/icons": "^3.7.4",
     "@sanity/presentation": "^2.0.0",
     "@sanity/react-loader": "^2.0.13",
     "@sanity/vision": "^5.27.0",
@@ -23,7 +24,9 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-icons": "^5.6.0",
-    "sanity": "^5.26.0"
+    "sanity": "^5.26.0",
+    "styled-components": "^6.4.2",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

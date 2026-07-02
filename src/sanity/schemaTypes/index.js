@@ -1,9 +1,28 @@
-import {author} from "./author";
-import {blogPost} from "./blogPost";
-import {cta} from "./cta";
-import {homePage} from "./homePage";
-import {blogPage} from "./blogPage";
-import {aboutPage} from "./aboutPage";
-import {contactPage} from "./contactPage";
+import { blogPost } from "./documents/blogPost";
+import { homePage } from "./singletons/homePage";
+import  page  from "./documents/page";
+import cta from "./pageSections/cta";
+import {author} from "./objects/author";
 
-export const schemaTypes = [cta, author, blogPost, homePage, blogPage, aboutPage, contactPage];
+// import seoTypes from './objects/seo';
+
+
+export const schemaTypes = [
+  // Singletons
+  homePage,
+
+
+  // Documents
+  page,
+  blogPost,
+
+
+
+  // objects
+
+  cta,
+  author
+
+  // ...seoTypes
+ 
+];
