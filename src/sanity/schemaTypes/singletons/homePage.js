@@ -12,14 +12,19 @@ export const homePage = defineType({
 
   fields: [
     defineField({
-      name: 'name',
+      name: "name",
       hidden: true,
       readOnly: true,
-      type: 'string',
-      initialValue: 'Home Page',
-      group: 'content',
+      type: "string",
+      initialValue: "Home Page",
+      group: "content",
     }),
     pageSections,
-  ]
-
-}); 
+    defineField({
+      title: "SEO & Metadata",
+      name: "seo",
+      type: "seoMetaFields",
+      group: "seo",
+    }),
+  ],
+});

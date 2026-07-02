@@ -1,22 +1,17 @@
-import {defineField, defineType} from "sanity";
+import { BulbFilledIcon } from "@sanity/icons";
+import { defineField, defineType } from "sanity";
 
 export default defineType({
   name: "cta",
   title: "CTA",
   type: "object",
+  icon: BulbFilledIcon,
   fields: [
     defineField({
-      name: "label",
-      title: "Label",
+      name: "title",
+      title: "title",
       type: "string",
       validation: (Rule) => Rule.required().max(40),
-    }),
-    defineField({
-      name: "href",
-      title: "Link",
-      type: "string",
-      initialValue: "#",
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "variant",
@@ -24,9 +19,9 @@ export default defineType({
       type: "string",
       options: {
         list: [
-          {title: "Primary", value: "primary"},
-          {title: "Secondary", value: "secondary"},
-          {title: "Nav", value: "nav"},
+          { title: "Primary", value: "primary" },
+          { title: "Secondary", value: "secondary" },
+          { title: "Nav", value: "nav" },
         ],
         layout: "radio",
       },
