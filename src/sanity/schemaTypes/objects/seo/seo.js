@@ -1,67 +1,66 @@
-import { defineField, defineType } from 'sanity';
-import SEOTitle from '@/studio/components/SEOTitle';
-import SEODescription from '@/studio/components/SEODescription';
-
+import SEODescription from "@/sanity/components/SEODescription";
+import SEOTitle from "@/sanity/components/SEOTitle";
+import { defineField, defineType } from "sanity";
 export default defineType({
-  title: 'SEO & Metadata',
-  name: 'seoMetaFields',
+  title: "SEO & Metadata",
+  name: "seoMetaFields",
   options: {
     collapsible: true,
   },
-  type: 'object',
+  type: "object",
   fields: [
     defineField({
-      name: 'noIndex',
-      title: 'No Index',
-      type: 'boolean',
+      name: "noIndex",
+      title: "No Index",
+      type: "boolean",
       initialValue: false,
       description:
         "If checked, this document won't be indexed by search engines and it won't render in the sitemap file",
     }),
     defineField({
-      name: 'metaTitle',
-      title: 'Title',
-      type: 'string',
+      name: "metaTitle",
+      title: "Title",
+      type: "string",
       components: {
         input: SEOTitle,
       },
     }),
     defineField({
-      name: 'metaDescription',
-      title: 'Description',
-      type: 'text',
+      name: "metaDescription",
+      title: "Description",
+      type: "text",
       rows: 3,
       components: {
         input: SEODescription,
       },
     }),
     defineField({
-      name: 'metaImage',
-      title: 'Meta Image',
-      type: 'reference',
-      to: [{ type: 'imageAsset' }],
+      name: "metaImage",
+      title: "Meta Image",
+      type: "reference",
+      to: [{ type: "imageAsset" }],
     }),
     defineField({
-      name: 'seoKeywords',
-      title: 'Keywords',
-      type: 'array',
-      of: [{ type: 'string' }],
+      name: "seoKeywords",
+      title: "Keywords",
+      type: "array",
+      of: [{ type: "string" }],
     }),
     defineField({
-      name: 'openGraph',
-      title: 'Open Graph',
-      type: 'openGraph',
+      name: "openGraph",
+      title: "Open Graph",
+      type: "openGraph",
     }),
     defineField({
-      name: 'additionalMetaTags',
-      title: 'Additional Meta Tags',
-      type: 'array',
-      of: [{ type: 'metaTag' }],
+      name: "additionalMetaTags",
+      title: "Additional Meta Tags",
+      type: "array",
+      of: [{ type: "metaTag" }],
     }),
     defineField({
-      name: 'twitter',
-      title: 'X.com',
-      type: 'twitter',
+      name: "twitter",
+      title: "X.com",
+      type: "twitter",
     }),
   ],
 });
