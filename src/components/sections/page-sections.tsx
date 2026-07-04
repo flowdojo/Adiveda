@@ -7,6 +7,7 @@ import { dataAttr } from "@/sanity/client/utils";
 import { ElementType } from "react";
 import Hero from "./hero";
 import CTA from "./cta";
+import featuresSection from "./featuresSection";
 
 type PageSectionstype = Section["_type"];
 
@@ -23,6 +24,7 @@ type PageData = SanityDocument<{
 const SECTION_COMPONENTS: Record<PageSectionstype, ElementType> = {
   hero: Hero,
   cta: CTA,
+  featuresSection: featuresSection,
 } as const;
 
 export default function PageSections({

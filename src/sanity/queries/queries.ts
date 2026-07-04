@@ -7,3 +7,12 @@ export const homePageQuery = defineQuery(`[_type == "homepage"]{
   ...,
   ${pageFragment}
 }`);
+
+export const getPageQuery =
+  defineQuery(`*[_type == "page" && slug.current == $slug][0] {
+  _id,
+  _type,
+  name,
+  slug,
+  ${pageFragment}
+}`);

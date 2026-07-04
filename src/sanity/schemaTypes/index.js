@@ -9,6 +9,8 @@ import video from "./documents/global/video";
 import link from "./objects/link";
 import hero from "./pageSections/hero";
 import seoTypes from "./objects/seo";
+import features from "./pageSections/features";
+import featureCard from "./objects/featureCard";
 
 // import seoTypes from './objects/seo';
 
@@ -19,6 +21,7 @@ export const schemaTypes = [
   // sections
   hero,
   cta,
+  features,
 
   // Documents
   page,
@@ -31,6 +34,6 @@ export const schemaTypes = [
   link,
   button,
   author,
-
+  featureCard
   // ...seoTypes
 ];

@@ -15,6 +15,20 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: .sanity/schema.json
+export type ImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "imageAsset";
+};
+
+export type FeatureCard = {
+  _type: "featureCard";
+  title?: string;
+  description?: string;
+  image?: ImageAssetReference;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -76,13 +90,6 @@ export type Twitter = {
   creator?: string;
   site?: string;
   handle?: string;
-};
-
-export type ImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "imageAsset";
 };
 
 export type SeoMetaFields = {
@@ -252,6 +259,25 @@ export type Page = {
     | ({
         _key: string;
       } & Hero)
+    | ({
+        _key: string;
+      } & FeaturesSection)
+  >;
+};
+
+export type FeaturesSection = {
+  _type: "featuresSection";
+  heading?: string;
+  description?: string;
+  buttons?: Array<
+    {
+      _key: string;
+    } & Button
+  >;
+  featureCards?: Array<
+    {
+      _key: string;
+    } & FeatureCard
   >;
 };
 
@@ -305,6 +331,9 @@ export type HomePage = {
     | ({
         _key: string;
       } & Hero)
+    | ({
+        _key: string;
+      } & FeaturesSection)
   >;
   seo?: SeoMetaFields;
 };
@@ -407,13 +436,14 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | ImageAssetReference
+  | FeatureCard
   | SanityImageAssetReference
   | Button
   | PageReference
   | BlogPostReference
   | Link
   | Twitter
-  | ImageAssetReference
   | SeoMetaFields
   | OpenGraph
   | MetaTag
@@ -426,6 +456,7 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | Page
+  | FeaturesSection
   | Cta
   | Hero
   | ImageAsset
@@ -439,9 +470,14 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: src/sanity/queries/fragments/fragments.ts
+// Source: src/sanity/queries/queries.ts
+// Variable: homePageQuery
+// Query: [_type == "homepage"]{  _id,  _type,  ...,    _createdAt,  _updatedAt,  date,    pageSections[]{    ...,    _key,    _type,    _type == 'hero' => {  _type,  title,  subtitle,  "image": imageAsset -> image,    buttons[]{      _key,  _type,  variant,  withoutBackground,  text,  icon,  hoverIcon,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current,    "category": categories[0]-> slug.current  }  }  }},    _type == 'cta' => {  _type,},    _type == 'featuresSection' => {  _type,  heading,  description,    _key,  _type,  variant,  withoutBackground,  text,  icon,  hoverIcon,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current,    "category": categories[0]-> slug.current  }  },  featureCards[] {    _key,    title,    description,    "image" : image -> image {        _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},    },  }}  },  seo {    ...,  _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  "metaImage": metaImage -> image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{       _key,   _type,   metaAttributes[] {        _type,   attributeValueString,   attributeType,   attributeKey,   attributeValueImage {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },    },   },  openGraph {       _type,   siteName,   url,   description,   title,   "image": image -> image {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },   },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
+export type HomePageQueryResult = Array<never>;
+
+// Source: src/sanity/queries/queries.ts
 // Variable: getPageQuery
-// Query: *[_type == "page" && slug.current == $slug][0] {  _id,  _type,  name,  slug,    _createdAt,  _updatedAt,  date,    pageSections[]{    ...,    _key,    _type,    _type == 'hero' => {  _type,  title,  subtitle,  "image": imageAsset -> image,    buttons[]{      _key,  _type,  variant,  withoutBackground,  text,  icon,  hoverIcon,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current,    "category": categories[0]-> slug.current  }  }  }},    _type == 'cta' => {  "_type": "cta",},  },  seo {    ...,  _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  "metaImage": metaImage -> image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{       _key,   _type,   metaAttributes[] {        _type,   attributeValueString,   attributeType,   attributeKey,   attributeValueImage {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },    },   },  openGraph {       _type,   siteName,   url,   description,   title,   "image": image -> image {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },   },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
+// Query: *[_type == "page" && slug.current == $slug][0] {  _id,  _type,  name,  slug,    _createdAt,  _updatedAt,  date,    pageSections[]{    ...,    _key,    _type,    _type == 'hero' => {  _type,  title,  subtitle,  "image": imageAsset -> image,    buttons[]{      _key,  _type,  variant,  withoutBackground,  text,  icon,  hoverIcon,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current,    "category": categories[0]-> slug.current  }  }  }},    _type == 'cta' => {  _type,},    _type == 'featuresSection' => {  _type,  heading,  description,    _key,  _type,  variant,  withoutBackground,  text,  icon,  hoverIcon,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current,    "category": categories[0]-> slug.current  }  },  featureCards[] {    _key,    title,    description,    "image" : image -> image {        _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},    },  }}  },  seo {    ...,  _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  "metaImage": metaImage -> image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{       _key,   _type,   metaAttributes[] {        _type,   attributeValueString,   attributeType,   attributeKey,   attributeValueImage {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },    },   },  openGraph {       _type,   siteName,   url,   description,   title,   "image": image -> image {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },   },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
 export type GetPageQueryResult = {
   _id: string;
   _type: "page";
@@ -456,6 +492,67 @@ export type GetPageQueryResult = {
         _type: "cta";
         title?: string;
         variant?: "nav" | "primary" | "secondary";
+      }
+    | {
+        _key: string;
+        _type: "featuresSection";
+        heading: string | null;
+        description: string | null;
+        buttons?: Array<
+          {
+            _key: string;
+          } & Button
+        >;
+        featureCards: Array<{
+          _key: string;
+          title: string | null;
+          description: string | null;
+          image: {
+            _type: "image";
+            crop: {
+              _type: "sanity.imageCrop";
+              right: number | null;
+              top: number | null;
+              left: number | null;
+              bottom: number | null;
+            } | null;
+            hotspot: {
+              _type: "sanity.imageHotspot";
+              x: number | null;
+              y: number | null;
+              height: number | null;
+              width: number | null;
+            } | null;
+            asset: {
+              _id: string;
+              _type: "sanity.imageAsset";
+              _createdAt: string;
+              _updatedAt: string;
+              _rev: string;
+              originalFilename?: string;
+              label?: string;
+              title?: string;
+              description?: string;
+              altText?: string;
+              sha1hash?: string;
+              extension?: string;
+              mimeType?: string;
+              size?: number;
+              assetId?: string;
+              uploadId?: string;
+              path?: string;
+              url?: string;
+              metadata?: SanityImageMetadata;
+              source?: SanityAssetSourceData;
+            } | null;
+          } | null;
+        }> | null;
+        variant: null;
+        withoutBackground: null;
+        text: null;
+        icon: null;
+        hoverIcon: null;
+        link: null;
       }
     | {
         _key: string;
@@ -522,16 +619,11 @@ export type GetPageQueryResult = {
   seo: null;
 } | null;
 
-// Source: src/sanity/queries/queries.ts
-// Variable: homePageQuery
-// Query: [_type == "homepage"]{  _id,  _type,  ...,    _createdAt,  _updatedAt,  date,    pageSections[]{    ...,    _key,    _type,    _type == 'hero' => {  _type,  title,  subtitle,  "image": imageAsset -> image,    buttons[]{      _key,  _type,  variant,  withoutBackground,  text,  icon,  hoverIcon,  link {      _type,  type,  openInNewTab,  external,  href,  internal->{    _type,    _id,    "slug": slug.current,    "category": categories[0]-> slug.current  }  }  }},    _type == 'cta' => {  "_type": "cta",},  },  seo {    ...,  _type,  metaTitle,  noIndex,  seoKeywords,  metaDescription,  "metaImage": metaImage -> image {      _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},  },  additionalMetaTags[]{       _key,   _type,   metaAttributes[] {        _type,   attributeValueString,   attributeType,   attributeKey,   attributeValueImage {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },    },   },  openGraph {       _type,   siteName,   url,   description,   title,   "image": image -> image {       _type,  crop {    _type,    right,    top,    left,    bottom  },  hotspot {    _type,    x,    y,    height,    width,  },  asset->{...},   },   },  twitter {      _type,  site,  creator,  cardType,  handle,  }  },}
-export type HomePageQueryResult = Array<never>;
-
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "page" && slug.current == $slug][0] {\n  _id,\n  _type,\n  name,\n  slug,\n  \n  _createdAt,\n  _updatedAt,\n  date,\n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'hero\' => {\n  _type,\n  title,\n  subtitle,\n  "image": imageAsset -> image,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  withoutBackground,\n  text,\n  icon,\n  hoverIcon,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current,\n    "category": categories[0]-> slug.current\n  }\n\n  }\n\n  }\n\n},\n    _type == \'cta\' => {\n  "_type": "cta",\n},\n  },\n\n  seo {\n    \n...,\n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  "metaImage": metaImage -> image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  additionalMetaTags[]{\n    \n   _key,\n   _type,\n   metaAttributes[] {\n     \n   _type,\n   attributeValueString,\n   attributeType,\n   attributeKey,\n   attributeValueImage {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n   },\n \n  },\n  openGraph {\n    \n   _type,\n   siteName,\n   url,\n   description,\n   title,\n   "image": image -> image {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': GetPageQueryResult;
-    '[_type == "homepage"]{\n  _id,\n  _type,\n  ...,\n  \n  _createdAt,\n  _updatedAt,\n  date,\n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'hero\' => {\n  _type,\n  title,\n  subtitle,\n  "image": imageAsset -> image,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  withoutBackground,\n  text,\n  icon,\n  hoverIcon,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current,\n    "category": categories[0]-> slug.current\n  }\n\n  }\n\n  }\n\n},\n    _type == \'cta\' => {\n  "_type": "cta",\n},\n  },\n\n  seo {\n    \n...,\n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  "metaImage": metaImage -> image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  additionalMetaTags[]{\n    \n   _key,\n   _type,\n   metaAttributes[] {\n     \n   _type,\n   attributeValueString,\n   attributeType,\n   attributeKey,\n   attributeValueImage {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n   },\n \n  },\n  openGraph {\n    \n   _type,\n   siteName,\n   url,\n   description,\n   title,\n   "image": image -> image {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': HomePageQueryResult;
+    '[_type == "homepage"]{\n  _id,\n  _type,\n  ...,\n  \n  _createdAt,\n  _updatedAt,\n  date,\n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'hero\' => {\n  _type,\n  title,\n  subtitle,\n  "image": imageAsset -> image,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  withoutBackground,\n  text,\n  icon,\n  hoverIcon,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current,\n    "category": categories[0]-> slug.current\n  }\n\n  }\n\n  }\n\n},\n    _type == \'cta\' => {\n  _type,\n},\n    _type == \'featuresSection\' => {\n  _type,\n  heading,\n  description,\n  \n  _key,\n  _type,\n  variant,\n  withoutBackground,\n  text,\n  icon,\n  hoverIcon,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current,\n    "category": categories[0]-> slug.current\n  }\n\n  }\n,\n  featureCards[] {\n    _key,\n    title,\n    description,\n    "image" : image -> image {\n      \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n    },\n  }\n}\n  },\n\n  seo {\n    \n...,\n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  "metaImage": metaImage -> image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  additionalMetaTags[]{\n    \n   _key,\n   _type,\n   metaAttributes[] {\n     \n   _type,\n   attributeValueString,\n   attributeType,\n   attributeKey,\n   attributeValueImage {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n   },\n \n  },\n  openGraph {\n    \n   _type,\n   siteName,\n   url,\n   description,\n   title,\n   "image": image -> image {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': HomePageQueryResult;
+    '*[_type == "page" && slug.current == $slug][0] {\n  _id,\n  _type,\n  name,\n  slug,\n  \n  _createdAt,\n  _updatedAt,\n  date,\n  \n  pageSections[]{\n    ...,\n    _key,\n    _type,\n    _type == \'hero\' => {\n  _type,\n  title,\n  subtitle,\n  "image": imageAsset -> image,\n  \n  buttons[]{\n    \n  _key,\n  _type,\n  variant,\n  withoutBackground,\n  text,\n  icon,\n  hoverIcon,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current,\n    "category": categories[0]-> slug.current\n  }\n\n  }\n\n  }\n\n},\n    _type == \'cta\' => {\n  _type,\n},\n    _type == \'featuresSection\' => {\n  _type,\n  heading,\n  description,\n  \n  _key,\n  _type,\n  variant,\n  withoutBackground,\n  text,\n  icon,\n  hoverIcon,\n  link {\n    \n  _type,\n  type,\n  openInNewTab,\n  external,\n  href,\n  internal->{\n    _type,\n    _id,\n    "slug": slug.current,\n    "category": categories[0]-> slug.current\n  }\n\n  }\n,\n  featureCards[] {\n    _key,\n    title,\n    description,\n    "image" : image -> image {\n      \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n    },\n  }\n}\n  },\n\n  seo {\n    \n...,\n  _type,\n  metaTitle,\n  noIndex,\n  seoKeywords,\n  metaDescription,\n  "metaImage": metaImage -> image {\n    \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n  },\n\n  additionalMetaTags[]{\n    \n   _key,\n   _type,\n   metaAttributes[] {\n     \n   _type,\n   attributeValueString,\n   attributeType,\n   attributeKey,\n   attributeValueImage {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n   },\n \n  },\n  openGraph {\n    \n   _type,\n   siteName,\n   url,\n   description,\n   title,\n   "image": image -> image {\n     \n  _type,\n  crop {\n    _type,\n    right,\n    top,\n    left,\n    bottom\n  },\n  hotspot {\n    _type,\n    x,\n    y,\n    height,\n    width,\n  },\n  asset->{...},\n\n   },\n \n  },\n  twitter {\n    \n  _type,\n  site,\n  creator,\n  cardType,\n  handle,\n\n  }\n\n  },\n\n}': GetPageQueryResult;
   }
 }

@@ -13,6 +13,8 @@ export default async function HomePage() {
 
   const { _id, _type, pageSections } = homePage;
 
+  console.log({ pageSections });
+
   return (
     <>
       <PageSections
